@@ -1,0 +1,35 @@
+#! /usr/bin/bash
+# https://www.showdoc.cc/help?page_id=65610
+
+command=$1
+port=$2
+
+if [ "$command" == "-help" ];then
+	echo "Usage:"
+	echo "    -help: 获取帮助"
+	echo "    -install: 安装showdoc，注意这里需要提前安装docker环境"
+	echo "    -start: 启动showdoc服务，后面可以带参数端口号"
+	echo "    -stop: 终止当前得showdoc服务,后面可以带参数端口号"
+	echo "    -restart: 重启被终止showdoc服务,后面可以带参数端口号"
+	echo "	  eg: showdoc.sh -start 4999"
+	exit;
+
+elif [ "$command" == "-install" ];then
+	docker pull star7th/showdoc
+
+elif [ "$command"=="-start" a -n "$port" ];then
+	mkdir -p /showdoc_data/html
+	chmod  -R 777 /showdoc_data
+	docker run -d --name showdoc_$port -p $port:80 -v /showdoc_data/html:/var/www/html/ star7th/showdoc
+	docker exec showdoc \cp -fr /showdoc_data/html/ /var/www/
+	chmod  -R 777 /showdoc_data
+
+elif [ "$command"=="-stop" a -n "$port" ];then
+	docker stop showdoc_$port
+
+elif [ "$command"=="-restart" a  -n "$port" ];then
+	docker restart showdoc_$port
+else
+		echo "Please use command: showdoc-deploy -help 获取帮助"
+fi
+
