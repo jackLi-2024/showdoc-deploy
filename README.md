@@ -1,6 +1,6 @@
 # showdoc-deploy
-showdoc部署
-Usage:
+showdoc部署\
+Usage:\
     -help: 获取帮助
     -install: 安装showdoc，注意这里需要提前安装docker环境
     -start: 启动showdoc服务，后面可以带参数端口号
